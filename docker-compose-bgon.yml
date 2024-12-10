@@ -1,0 +1,42 @@
+################ NETWORKS ################
+networks:
+  deafult:
+    driver: bridge
+  docker_socket_network: # Firewall network for containers that need access to docker socket
+    name: docker_socket_network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.91.0/24
+  traefik_network: # Traefik network
+    name: traefik_network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.90.0/24
+
+################ SECRETS ################
+secrets:
+  twitch_key:
+    file: $DOCKERDIR/secrets/twitch_key
+  youtube_key:
+    file: $DOCKERDIR/secrets/youtube_key
+  openvpn_clientcrt:
+    file: $DOCKERDIR/secrets/openvpn_clientcrt
+  openvpn_clientkey:
+    file: $DOCKERDIR/secrets/openvpn_clientkey
+
+################ SERVICES ################
+# PREFIX bgon = Bird Gardens Of Naples
+# HOSTNAME = bgon - defined in .env
+include:
+# CORE
+  - compose/$HOSTNAME/socket-proxy.yml
+  - compose/$HOSTNAME/traefik.yml
+
+# VPN & REMOTE ACCESS
+  - compose/$HOSTNAME/gluetun.yml
+  # - compose/$HOSTNAME/guacamole.yml
+
+# STREAMING
+  # - compose/$HOSTNAME/obs.yml
