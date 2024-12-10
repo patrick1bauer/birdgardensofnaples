@@ -1,0 +1,18 @@
+services:
+  guacd: # Remote Desktop Server
+    image: guacamole/guacd
+    container_name: guacd
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    network_mode: "service:gluetun"
+    volumes:
+    - $DOCKERDIR/appdata/guacd/drive:rw
+    - $DOCKERDIR/appdata/guacd/record:rw
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
