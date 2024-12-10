@@ -10,7 +10,7 @@ services:
     volumes:
       - $DOCKERDIR/appdata/gluetun:/gluetun
     networks:
-      - traefik_network
+      - gluetun_network
     # ports:
       # - 8888:8888 # HTTP Proxy
     secrets:
@@ -26,17 +26,15 @@ services:
       OPENVPN_KEY: /run/secrets/openvpn_clientkey
       OPENVPN_CERT: /run/secrets/openvpn_clientcrt
       # Airvpn port forwarding:
-      FIREWALL_VPN_INPUT_PORTS: 8080,8191,9696,7878,8989
+      FIREWALL_VPN_INPUT_PORTS: 80, 443
       SERVER_COUNTRIES: United States
       HTTPPROXY: on
     labels:
       - "traefik.enable=true"
-
-      # HTTP Routers - Gluetun
-      - "traefik.http.routers.gluetun-rtr.entrypoints=websecure"
-      - "traefik.http.routers.gluetun-rtr.rule=Host(`gluetun.$DOMAINNAME`)"
-      # HTTP Services - Gluetun
-      - "traefik.http.routers.gluetun-rtr.service=gluetun-svc"
-      - "traefik.http.services.gluetun-svc.loadbalancer.server.port=8000"
-      # Middlewares - Gluetun
-      - "traefik.http.routers.gluetun-rtr.middlewares=chain-oauth@file"
+      # HTTP Routers
+      - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
+      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME`)"
+      # API Services
+      - "traefik.http.routers.traefik-rtr.service=api@internal"
+      # Middlewares
+      - "traefik.http.routers.traefik-rtr.middlewares=chain-oauth@file"
