@@ -1,0 +1,42 @@
+services:
+  gluetun: # VPN
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - $DOCKERDIR/appdata/gluetun:/gluetun
+    networks:
+      - traefik_network
+    # ports:
+      # - 8888:8888 # HTTP Proxy
+    secrets:
+    - openvpn_clientcrt
+    - openvpn_clientkey
+    environment:
+      VPN_SERVICE_PROVIDER: airvpn
+      VPN_TYPE: openvpn
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+      UPDATER_PERIOD: 12h
+      OPENVPN_KEY: /run/secrets/openvpn_clientkey
+      OPENVPN_CERT: /run/secrets/openvpn_clientcrt
+      # Airvpn port forwarding:
+      FIREWALL_VPN_INPUT_PORTS: 8080,8191,9696,7878,8989
+      SERVER_COUNTRIES: United States
+      HTTPPROXY: on
+    labels:
+      - "traefik.enable=true"
+
+      # HTTP Routers - Gluetun
+      - "traefik.http.routers.gluetun-rtr.entrypoints=websecure"
+      - "traefik.http.routers.gluetun-rtr.rule=Host(`gluetun.$DOMAINNAME`)"
+      # HTTP Services - Gluetun
+      - "traefik.http.routers.gluetun-rtr.service=gluetun-svc"
+      - "traefik.http.services.gluetun-svc.loadbalancer.server.port=8000"
+      # Middlewares - Gluetun
+      - "traefik.http.routers.gluetun-rtr.middlewares=chain-oauth@file"
