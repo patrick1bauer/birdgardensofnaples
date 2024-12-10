@@ -2,13 +2,13 @@ services:
   socket-proxy: # Security Enhanced Proxy for Docker Socket
     image: tecnativa/docker-socket-proxy
     container_name: socket-proxy
+    restart: unless-stopped
+    privileged: true
     security_opt:
       - no-new-privileges:true
-    restart: unless-stopped
     networks:
       docker_socket_network:
         ipv4_address: 192.168.91.254
-    privileged: true
     ports:
       - 2375:2375
     volumes:

@@ -2,13 +2,15 @@ services:
   traefik: # Reverse Proxy
     image: traefik:3.0
     container_name: traefik
+    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    restart: unless-stopped
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
-      traefik_network:
-        ipv4_address: 192.168.90.254
       docker_socket_network:
+    network_mode: "service:gluetun"
     command:
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
@@ -55,17 +57,19 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - $DOCKERDIR/appdata/traefik3/rules/$HOSTNAME:/rules # Dynamic File Provider directory
-      - $DOCKERDIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
-      - $DOCKERDIR/appdata/traefik3/logs/$HOSTNAME:/logs # Traefik logs
-    environment:
-      - TZ=$TZ
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
-      - HTPASSWD_FILE=/run/secrets/basic_auth_credentials # HTTP Basic Auth Credentials
-      - DOMAINNAME # Passing the domain name to traefik container to be able to use the variable in rules.
+      $DOCKERDIR/appdata/traefik3/rules/$HOSTNAME: /rules # Dynamic File Provider directory
+      $DOCKERDIR/appdata/traefik3/acme/acme.json: /acme.json # Certs File
+      $DOCKERDIR/appdata/traefik3/logs/$HOSTNAME: /logs # Traefik logs
     secrets:
       - cf_dns_api_token
       - basic_auth_credentials
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      CF_DNS_API_TOKEN_FILE: /run/secrets/cf_dns_api_token
+      HTPASSWD_FILE: /run/secrets/basic_auth_credentials # HTTP Basic Auth Credentials
+      DOMAINNAME: $DOMAINNAME # Passing the domain name to traefik container to be able to use the variable in rules.
     labels:
       - "traefik.enable=true"
       # HTTP Routers

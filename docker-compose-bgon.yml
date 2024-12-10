@@ -8,8 +8,8 @@ networks:
     ipam:
       config:
         - subnet: 192.168.91.0/24
-  traefik_network: # Traefik network
-    name: traefik_network
+  gluetun_network:
+    name: gluetun_network
     driver: bridge
     ipam:
       config:
@@ -36,6 +36,7 @@ include:
 
 # VPN & REMOTE ACCESS
   - compose/$HOSTNAME/gluetun.yml
+  # - compose/$HOSTNAME/guacd.yml
   # - compose/$HOSTNAME/guacamole.yml
 
 # STREAMING
