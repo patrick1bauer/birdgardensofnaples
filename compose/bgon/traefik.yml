@@ -78,4 +78,4 @@ services:
       # API Services
       - "traefik.http.routers.traefik-rtr.service=api@internal"
       # Middlewares
-      - "traefik.http.routers.traefik-rtr.middlewares=chain-oauth@file"
+      - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file"
