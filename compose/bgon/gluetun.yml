@@ -14,8 +14,8 @@ services:
     # ports:
       # - 8888:8888 # HTTP Proxy
     secrets:
-    - openvpn_clientcrt
-    - openvpn_clientkey
+      - openvpn_clientcrt
+      - openvpn_clientkey
     environment:
       VPN_SERVICE_PROVIDER: airvpn
       VPN_TYPE: openvpn
@@ -26,7 +26,7 @@ services:
       OPENVPN_KEY: /run/secrets/openvpn_clientkey
       OPENVPN_CERT: /run/secrets/openvpn_clientcrt
       # Airvpn port forwarding:
-      FIREWALL_VPN_INPUT_PORTS: 80, 443
+      FIREWALL_VPN_INPUT_PORTS: 80,443
       SERVER_COUNTRIES: United States
       HTTPPROXY: on
     # labels:
