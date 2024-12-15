@@ -10,7 +10,7 @@ services:
     volumes:
       - $DOCKERDIR/appdata/gluetun:/gluetun
     networks:
-      - gluetun_network
+      - docker_socket_network
     # ports:
       # - 8888:8888 # HTTP Proxy
     secrets:
@@ -29,12 +29,12 @@ services:
       FIREWALL_VPN_INPUT_PORTS: 80, 443
       SERVER_COUNTRIES: United States
       HTTPPROXY: on
-    labels:
-      - "traefik.enable=true"
-      # HTTP Routers
-      - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
-      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME`)"
-      # API Services
-      - "traefik.http.routers.traefik-rtr.service=api@internal"
-      # Middlewares
-      - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file"
+    # labels:
+    #   - "traefik.enable=true"
+    #   # HTTP Routers
+    #   - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
+    #   - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME`)"
+    #   # API Services
+    #   - "traefik.http.routers.traefik-rtr.service=api@internal"
+    #   # Middlewares
+    #   - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file"
