@@ -1,0 +1,29 @@
+services:
+  dozzle: # Real-time Docker Log Viewer
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    user: $PUID:$PGID
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    network_mode: "service:gluetun"
+    # ports:
+    #   - 8082:8080
+    environment:
+      DOZZLE_LEVEL: info
+      DOZZLE_TAILSIZE: 300
+      DOZZLE_FILTER: "status=running"
+      DOCKER_HOST: tcp://socket-proxy:2375
+    # labels:
+    #   - "traefik.enable=true"
+    #   # HTTP Routers
+    #   - "traefik.http.routers.dozzle-rtr.entrypoints=websecure"
+    #   - "traefik.http.routers.dozzle-rtr.rule=Host(`dozzle.$DOMAINNAME`)"
+    #   # HTTP Services
+    #   - "traefik.http.routers.dozzle-rtr.service=dozzle-svc"
+    #   - "traefik.http.services.dozzle-svc.loadbalancer.server.port=8080"
+    #   # Middlewares
+    #   - "traefik.http.routers.dozzle-rtr.middlewares=chain-no-auth@file"
