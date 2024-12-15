@@ -8,8 +8,6 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
-    networks:
-      docker_socket_network:
     network_mode: "service:gluetun"
     command:
       - --global.checkNewVersion=true
@@ -47,19 +45,19 @@ services:
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.provider=cloudflare
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.delayBeforeCheck=90 # To delay DNS check and reduce LE hitrate
-    ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: host
+    # ports:
+    #   - target: 80
+    #     published: 80
+    #     protocol: tcp
+    #     mode: host
+    #   - target: 443
+    #     published: 443
+    #     protocol: tcp
+    #     mode: host
     volumes:
-      $DOCKERDIR/appdata/traefik3/rules/$HOSTNAME: /rules # Dynamic File Provider directory
-      $DOCKERDIR/appdata/traefik3/acme/acme.json: /acme.json # Certs File
-      $DOCKERDIR/appdata/traefik3/logs/$HOSTNAME: /logs # Traefik logs
+      - $DOCKERDIR/appdata/traefik3/rules/$HOSTNAME:/rules # Dynamic File Provider directory
+      - $DOCKERDIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
+      - $DOCKERDIR/appdata/traefik3/logs/$HOSTNAME:/logs # Traefik logs
     secrets:
       - cf_dns_api_token
       - basic_auth_credentials
