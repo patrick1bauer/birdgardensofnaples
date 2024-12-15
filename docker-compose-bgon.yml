@@ -33,6 +33,7 @@ include:
 # CORE
   - compose/$HOSTNAME/socket-proxy.yml
   - compose/$HOSTNAME/traefik.yml
+  - compose/$HOSTNAME/dozzle.yml
 
 # VPN & REMOTE ACCESS
   - compose/$HOSTNAME/gluetun.yml
