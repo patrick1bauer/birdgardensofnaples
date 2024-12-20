@@ -2,14 +2,14 @@
 networks:
   deafult:
     driver: bridge
-  docker_socket_network: # Firewall network for containers that need access to docker socket
-    name: docker_socket_network
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.91.0/24
-  gluetun_network:
-    name: gluetun_network
+  # docker_socket_network: # Firewall network for containers that need access to docker socket
+  #   name: docker_socket_network
+  #   driver: bridge
+  #   ipam:
+  #     config:
+  #       - subnet: 192.168.91.0/24
+  proxy_network:
+    name: proxy_network
     driver: bridge
     ipam:
       config:
@@ -39,9 +39,9 @@ secrets:
 # HOSTNAME = bgon - defined in .env
 include:
 # CORE
-  - compose/$HOSTNAME/socket-proxy.yml
+  # - compose/$HOSTNAME/socket-proxy.yml
   # - compose/$HOSTNAME/traefik.yml
-  - compose/$HOSTNAME/dozzle.yml
+  - compose/$HOSTNAME/homepage.yml
 
 # VPN & REMOTE ACCESS
   - compose/$HOSTNAME/gluetun.yml

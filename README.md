@@ -16,6 +16,7 @@ Delete all dangling images: `sudo docker image prune`
 
 Check public ip address from within a container:
 `sudo docker exec <container> wget http://ipecho.net/plain -O - -q ; echo`
+`sudo docker exec gluetun wget http://ipecho.net/plain -O - -q ; echo`
 
 # TODO:
 * Wake on lan

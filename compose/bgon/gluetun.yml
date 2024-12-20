@@ -10,9 +10,9 @@ services:
     volumes:
       - $DOCKERDIR/appdata/gluetun:/gluetun
     networks:
-      - docker_socket_network
-    # ports:
-      # - 8888:8888 # HTTP Proxy
+      - proxy_network
+    ports:
+      - 3000:3000/tcp # Homepage
     secrets:
       - openvpn_clientcrt
       - openvpn_clientkey
@@ -25,16 +25,5 @@ services:
       UPDATER_PERIOD: 12h
       OPENVPN_KEY: /run/secrets/openvpn_clientkey
       OPENVPN_CERT: /run/secrets/openvpn_clientcrt
-      # Airvpn port forwarding:
-      FIREWALL_VPN_INPUT_PORTS: 80,443
+      FIREWALL_VPN_INPUT_PORTS: 80,443,3000,14550
       SERVER_COUNTRIES: United States
-      HTTPPROXY: on
-    # labels:
-    #   - "traefik.enable=true"
-    #   # HTTP Routers
-    #   - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
-    #   - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME`)"
-    #   # API Services
-    #   - "traefik.http.routers.traefik-rtr.service=api@internal"
-    #   # Middlewares
-    #   - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file"
