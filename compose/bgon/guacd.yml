@@ -13,8 +13,8 @@ services:
     networks:
       - guacamole_network
     volumes:
-    - $DOCKERDIR/appdata/guacd/drive:rw
-    - $DOCKERDIR/appdata/guacd/record:rw
+    - $DOCKERDIR/appdata/guacd/drive
+    - $DOCKERDIR/appdata/guacd/record
     environment:
       PUID: $PUID
       PGID: $PGID
