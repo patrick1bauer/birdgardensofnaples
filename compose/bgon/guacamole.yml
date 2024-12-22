@@ -6,17 +6,17 @@ services:
     security_opt:
       - no-new-privileges:true
     depends_on:
-      guacd:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      gluetun:
-        condition: service_healthy
+      - guacd
+      - postgres
+      # gluetun:
+      #   condition: service_healthy
     links:
       - guacd
-    network_mode: "service:gluetun"
+    # network_mode: "service:gluetun"
+    networks:
+      - guacamole_network
     ports:
-      - 8080/tcp
+      - "8080:8080"
     secrets:
       - guacamole_postgres_user
       - guacamole_postgres_password

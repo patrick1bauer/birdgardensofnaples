@@ -5,10 +5,12 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    depends_on:
-      gluetun:
-        condition: service_healthy
-    network_mode: "service:gluetun"
+    # depends_on:
+    #   gluetun:
+    #     condition: service_healthy
+    # network_mode: "service:gluetun"
+    networks:
+      - guacamole_network
     volumes:
     - $DOCKERDIR/appdata/guacd/drive:rw
     - $DOCKERDIR/appdata/guacd/record:rw

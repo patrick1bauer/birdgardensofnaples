@@ -15,6 +15,13 @@ networks:
       config:
         - subnet: 192.168.90.0/24
 
+  guacamole_network:
+    name: guacamole_network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.91.0/24
+
 ################ SECRETS ################
 secrets:
   basic_auth_credentials:
@@ -41,12 +48,14 @@ include:
 # CORE
   # - compose/$HOSTNAME/socket-proxy.yml
   # - compose/$HOSTNAME/traefik.yml
-  - compose/$HOSTNAME/homepage.yml
+  # - compose/$HOSTNAME/homepage.yml
 
-# VPN & REMOTE ACCESS
-  - compose/$HOSTNAME/gluetun.yml
-  # - compose/$HOSTNAME/guacd.yml
-  # - compose/$HOSTNAME/guacamole.yml
+# VPN
+  # - compose/$HOSTNAME/gluetun.yml
+
+# REMOTE CONNECTION
+  - compose/$HOSTNAME/guacd.yml
+  - compose/$HOSTNAME/guacamole.yml
 
 # STREAMING
   # - compose/$HOSTNAME/obs.yml
