@@ -5,7 +5,8 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    # depends_on:
+    depends_on:
+      - postgres
     #   gluetun:
     #     condition: service_healthy
     # network_mode: "service:gluetun"

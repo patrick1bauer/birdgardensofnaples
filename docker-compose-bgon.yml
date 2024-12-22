@@ -54,6 +54,7 @@ include:
   # - compose/$HOSTNAME/gluetun.yml
 
 # REMOTE CONNECTION
+  - compose/$HOSTNAME/postgres.yml
   - compose/$HOSTNAME/guacd.yml
   - compose/$HOSTNAME/guacamole.yml
 
