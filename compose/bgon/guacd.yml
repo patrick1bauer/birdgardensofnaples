@@ -1,6 +1,6 @@
 services:
   guacd: # Remote Desktop Server
-    image: jwetzell/guacd
+    image: ghcr.io/linuxserver/guacd:latest
     container_name: guacd
     restart: unless-stopped
     security_opt:

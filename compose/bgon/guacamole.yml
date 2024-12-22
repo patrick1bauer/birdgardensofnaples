@@ -1,6 +1,6 @@
 services:
   guacamole: # Remote Desktop Web Client
-    image: jwetzell/guacamole
+    image: ghcr.io/linuxserver/guacamole:latest
     container_name: guacamole
     restart: unless-stopped
     security_opt:
