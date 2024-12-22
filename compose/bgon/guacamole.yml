@@ -1,6 +1,6 @@
 services:
   guacamole: # Remote Desktop Web Client
-    image: oznu/guacamole
+    image: jwetzell/guacamole
     container_name: guacamole
     restart: unless-stopped
     security_opt:
