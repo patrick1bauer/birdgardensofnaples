@@ -1,6 +1,6 @@
 services:
   guacd: # Remote Desktop Server
-    image: guacamole/guacd
+    image: oznu/guacd
     container_name: guacd
     restart: unless-stopped
     security_opt:
