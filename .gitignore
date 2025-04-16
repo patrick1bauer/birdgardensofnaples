@@ -1,6 +1,2 @@
-.env
-/secrets/*
-appdata/gluetun/*
-appdata/portainer/*
-appdata/traefik3/logs/*
-appdata/traefik3/acme/*
+/node_modules
+/.next
