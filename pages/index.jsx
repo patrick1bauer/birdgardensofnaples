@@ -5,7 +5,7 @@ export default function Home() {
     <div className="div-component">
       <div className="div-content">
         <div id="home-title">Bird Gardens of Naples</div>
-        <h1 id="home-description">Leo go brrrrrrrr</h1>
+        <h1 id="home-description">Leo go brrrrrrrr lol</h1>
       </div>
     </div>
   );
